@@ -1,15 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>Home</h1>
     <p>Welcome to the home page!</p>
+    <p>
+        User : <span sec:authentication="principal.username"></span>
+    </p>
 
-    <a href="/showMyLoginPage">Login</a>
-    <a href="/register">Register</a>
-  </body>
+    <p>
+        Roles : <span sec:authentication="principal.authorities"></span>
+    </p>
+
+
+    <!-- logout -->
+    <form action="#" th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout" />
+</body>
+
 </html>
