@@ -11,42 +11,45 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class DemoSecurityConfig {
-    @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails john = User.builder()
-                .username("john")
-                .password("{noop}test123")
-                .roles("EMPLOYEE")
-                .build();
+        @Bean
+        public InMemoryUserDetailsManager userDetailsManager() {
+                UserDetails john = User.builder()
+                                .username("john")
+                                .password("{noop}test123")
+                                .roles("EMPLOYEE")
+                                .build();
 
-        UserDetails mary = User.builder()
-                .username("mary")
-                .password("{noop}test123")
-                .roles("MANAGER", "EMPLOYEE")
-                .build();
+                UserDetails mary = User.builder()
+                                .username("mary")
+                                .password("{noop}test123")
+                                .roles("MANAGER", "EMPLOYEE")
+                                .build();
 
-        UserDetails susan = User.builder()
-                .username("susan")
-                .password("{noop}test123")
-                .roles("ADMIN", "EMPLOYEE", "MANAGER")
-                .build();
+                UserDetails susan = User.builder()
+                                .username("susan")
+                                .password("{noop}test123")
+                                .roles("ADMIN", "EMPLOYEE", "MANAGER")
+                                .build();
 
-        return new InMemoryUserDetailsManager(john, mary, susan);
+                return new InMemoryUserDetailsManager(john, mary, susan);
 
-    }
+        }
 
-    // change the default login page
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(configurer -> configurer
-                .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/showMyLoginPage")
-                        .loginProcessingUrl("/authenticateTheUser")
-                        .permitAll())
-                .logout(logout -> logout
-                        .permitAll());
+        // change the default login page
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http.authorizeHttpRequests(configurer -> configurer
+                                .requestMatchers("/").hasRole("EMPLOYEE")
+                                .requestMatchers("/leaders/**").hasRole("MANAGER")
+                                .requestMatchers("/systems/**").hasRole("ADMIN")
+                                .anyRequest().authenticated())
+                                .formLogin(form -> form
+                                                .loginPage("/showMyLoginPage")
+                                                .loginProcessingUrl("/authenticateTheUser")
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .permitAll());
 
-        return http.build();
-    }
+                return http.build();
+        }
 }
