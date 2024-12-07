@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        margin: 0 auto;
+      }
+      label {
+        margin-bottom: 5px;
+      }
+      input {
+        margin-bottom: 10px;
+      }
+      button {
+        margin-top: 10px;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form action="#" th:action="@{/authenticateTheUser}" method="post">
+      <div th:if="${param.error}" class="error">
+        <i> Invalid username and password. </i>
+      </div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
+      <button type="submit">Login</button>
+    </form>
+    <a href="/register">Register</a>
+  </body>
+</html>
