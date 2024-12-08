@@ -2,7 +2,6 @@ package com.springcourse.demosecurity.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,7 +47,9 @@ public class DemoSecurityConfig {
                                                 .loginProcessingUrl("/authenticateTheUser")
                                                 .permitAll())
                                 .logout(logout -> logout
-                                                .permitAll());
+                                                .permitAll())
+                                .exceptionHandling(configurer -> configurer
+                                                .accessDeniedPage("/access-denied"));
 
                 return http.build();
         }

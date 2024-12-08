@@ -9,7 +9,9 @@
 
 <body>
     <h1>Home</h1>
+    <hr>
     <p>Welcome to the home page!</p>
+    <hr>
     <p>
         User : <span sec:authentication="principal.username"></span>
     </p>
@@ -20,12 +22,12 @@
 
     <hr>
 
-    <p>
+    <p  sec:authorize="hasRole('ROLE_MANAGER')">
         <a th:href="@{/leaders}">Leadership Meeting</a>
         (Only for Managers peeps)
     </p>
 
-    <p>
+    <p  sec:authorize="hasRole('ROLE_ADMIN')">
         <a th:href="@{/systems}">Systems Meeting</a>
         (Only for Admin peeps)
     </p>
